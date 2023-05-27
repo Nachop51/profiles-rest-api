@@ -4,6 +4,8 @@ from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication # Django REST framework Token Authentication
 from rest_framework import filters # Django REST framework filters
+from rest_framework.authtoken.views import ObtainAuthToken # Django REST framework Token Authentication
+from rest_framework.settings import api_settings
 
 from profiles_api import serializers
 from profiles_api import models
@@ -104,3 +106,9 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     # typo in permissions_classes -> permissions_classes
     filter_backends = (filters.SearchFilter,) # Django REST framework filters
     search_fields = ('name', 'email')
+
+
+class UserLoginApiView(ObtainAuthToken):
+    """ Handle creating user authentication tokens """
+
+    renderer_classes = api_settings.DEFAULT_RENDERER_CLASSES

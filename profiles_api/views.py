@@ -3,6 +3,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
 from rest_framework.authentication import TokenAuthentication # Django REST framework Token Authentication
+from rest_framework import filters # Django REST framework filters
 
 from profiles_api import serializers
 from profiles_api import models
@@ -101,3 +102,5 @@ class UserProfileViewSet(viewsets.ModelViewSet):
     authentication_classes = (TokenAuthentication,) # Django REST framework Token Authentication
     permission_classes = (permissions.UpdateOwnProfile,)
     # typo in permissions_classes -> permissions_classes
+    filter_backends = (filters.SearchFilter,) # Django REST framework filters
+    search_fields = ('name', 'email')

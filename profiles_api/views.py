@@ -2,8 +2,11 @@ from rest_framework.views import APIView
 from rest_framework.response import Response
 from rest_framework import status
 from rest_framework import viewsets
+from rest_framework.authentication import TokenAuthentication # Django REST framework Token Authentication
 
 from profiles_api import serializers
+from profiles_api import models
+from profiles_api import permissions
 
 
 class HelloApiView(APIView):
@@ -89,3 +92,12 @@ class HelloViewSet(viewsets.ViewSet):
         """ Handle removing an object """
         return Response({'http_method': 'DELETE'})
 
+
+class UserProfileViewSet(viewsets.ModelViewSet):
+    """ Handle creating and updating profiles """
+
+    serializer_class = serializers.UserProfileSerializer
+    queryset = models.UserProfile.objects.all()
+    authentication_classes = (TokenAuthentication,) # Django REST framework Token Authentication
+    permission_classes = (permissions.UpdateOwnProfile,)
+    # typo in permissions_classes -> permissions_classes
